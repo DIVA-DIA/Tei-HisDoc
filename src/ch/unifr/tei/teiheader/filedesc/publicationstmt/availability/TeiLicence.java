@@ -17,7 +17,7 @@ public class TeiLicence extends TeiTextElement {
 
     public TeiLicence(TeiElement parent) {
         super(parent);
-        setContent("Creative Commons Attribution 3.0 Unsupported (CC BY 3.0)");
+        setContent("Creative Commons Attribution 3.0 Unported (CC BY 3.0)");
         target = "http://creativecommons.org/licenses/by/3.0/";
     }
 

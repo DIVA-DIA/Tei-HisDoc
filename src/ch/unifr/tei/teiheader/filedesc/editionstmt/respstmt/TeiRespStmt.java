@@ -90,6 +90,14 @@ public class TeiRespStmt extends TeiElement implements TeiElementContainer<TeiRe
     public TeiPersName getPersName() {
         return persName;
     }
+    
+    public TeiDate getDate() {
+        if (methodName!=null) {
+            return methodName.getDate();
+        } else {
+            return persName.getDate();
+        }
+    }
 
     public void setParent(TeiEditionStmt parent) {
         this.parent = parent;

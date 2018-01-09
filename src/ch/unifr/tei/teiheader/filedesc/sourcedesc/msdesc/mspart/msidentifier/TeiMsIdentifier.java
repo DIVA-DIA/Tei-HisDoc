@@ -70,4 +70,30 @@ public class TeiMsIdentifier extends TeiElement implements TeiIdnoContainer {
         // Nothing to do
     }
 
+    
+    // ACCESSORS
+    
+    public String getSettlement() {
+        return settlement.getContent();
+    }
+    
+    public void setSettlement(String settlement) {
+        this.settlement.setContent(settlement);
+    }
+    
+    public String getRepository() {
+        return repository.getContent();
+    }
+    
+    public void setRepository(String repository) {
+        this.repository.setContent(repository);
+    }
+    
+    public String getIdno() {
+        return idno.getContent();
+    }
+    
+    public void setIdno(String idno) {
+        this.idno.setContent(idno);
+    }
 }

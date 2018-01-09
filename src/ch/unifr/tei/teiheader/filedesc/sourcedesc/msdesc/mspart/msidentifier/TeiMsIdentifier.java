@@ -15,7 +15,7 @@ import org.jdom2.Element;
 /**
  * @author Mathias Seuret
  */
-public class TeiMsIdentifier extends TeiElement implements TeiIdnoContainer {
+public class TeiMsIdentifier extends TeiElement implements TeiIdnoContainer, TeiSettlementContainer {
     private TeiSettlement settlement = new TeiSettlement(this);
     private TeiRepository repository = new TeiRepository(this);
     private TeiIdno idno = new TeiIdno(this);

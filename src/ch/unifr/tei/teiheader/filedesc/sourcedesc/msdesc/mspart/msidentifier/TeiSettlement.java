@@ -13,11 +13,11 @@ import org.jdom2.Element;
  * @author Mathias Seuret
  */
 public class TeiSettlement extends TeiTextElement {
-    public TeiSettlement(TeiElement parent) {
-        super(parent);
+    public TeiSettlement(TeiSettlementContainer parent) {
+        super((TeiElement)parent);
     }
 
-    private TeiSettlement(TeiMsIdentifier parent, Element el) {
+    private TeiSettlement(TeiSettlementContainer parent, Element el) {
         this(parent);
 
         setContent(el.getText());
@@ -25,7 +25,7 @@ public class TeiSettlement extends TeiTextElement {
         consume(el);
     }
 
-    public static TeiSettlement load(TeiMsIdentifier parent, Element el) {
+    public static TeiSettlement load(TeiSettlementContainer parent, Element el) {
         return new TeiSettlement(parent, el);
     }
 

@@ -8,17 +8,18 @@ package ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.al
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiIdno;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiIdnoContainer;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiMsIdentifier;
+import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiSettlement;
+import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiSettlementContainer;
 import ch.unifr.tei.utils.TeiElement;
 import org.jdom2.Element;
 
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Mathias Seuret
  */
-public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer {
-    private List<TeiIdno> idnos = new LinkedList<>();
+public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, TeiSettlementContainer {
+    private TeiIdno idno = null;
+    private TeiSettlement settlement = null;
     private String type = null;
 
     public TeiAltIdentifier(TeiElement parent) {
@@ -28,10 +29,17 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer {
     private TeiAltIdentifier(TeiMsIdentifier parent, Element el) {
         this(parent);
 
-        for (Element e : el.getChildren("idno", TeiNS)) {
-            idnos.add(TeiIdno.load(this, e));
+        Element e = el.getChild("idno", TeiNS);
+        if (e!=null) {
+            idno = TeiIdno.load(this, e);
         }
-        el.removeChildren("idno", TeiNS);
+        el.removeChild("idno", TeiNS);
+        
+        e = el.getChild("settlement", TeiNS);
+        if (e!=null) {
+            settlement = TeiSettlement.load(this, e);
+        }
+        el.removeChild("settlement", TeiNS);
 
         type = consumeAttributeStr(el, "type", NoNS, true);
 
@@ -51,9 +59,8 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer {
     public Element toXML() {
         Element el = getExportElement();
 
-        for (TeiElement e : idnos) {
-            addContent(el, e);
-        }
+        addContent(el, idno);
+        addContent(el, settlement);
         addAttribute(el, "type", type, NoNS);
 
         return el;

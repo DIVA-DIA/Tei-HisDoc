@@ -7,6 +7,9 @@ package ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier;
 
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.altidentifier.TeiAltIdentifier;
 import ch.unifr.tei.utils.TeiElement;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import org.jdom2.Element;
 
 /**
@@ -16,7 +19,7 @@ public class TeiMsIdentifier extends TeiElement implements TeiIdnoContainer {
     private TeiSettlement settlement = new TeiSettlement(this);
     private TeiRepository repository = new TeiRepository(this);
     private TeiIdno idno = new TeiIdno(this);
-    private TeiAltIdentifier altIdentifier = null;
+    private List<TeiAltIdentifier> altIdentifiers = new LinkedList<>();
 
     public TeiMsIdentifier(TeiElement parent) {
         super(parent);
@@ -34,12 +37,13 @@ public class TeiMsIdentifier extends TeiElement implements TeiIdnoContainer {
         e = consumeChild(el, "idno", TeiNS, true);
         idno = TeiIdno.load(this, e);
 
-        e = consumeChild(el, "altIdentifier", TeiNS, false);
-        if (e != null) {
-            altIdentifier = TeiAltIdentifier.load(this, e);
-//        } else {
-//            altIdentifier = new TeiAltIdentifier(this);
-        }
+        do {
+            e = consumeChild(el, "altIdentifier", TeiNS, false);
+            if (e != null) {
+                TeiAltIdentifier aid = TeiAltIdentifier.load(this, e);
+                altIdentifiers.add(aid);
+            }
+        } while (e!=null) ;
 
         consume(el);
     }
@@ -60,7 +64,9 @@ public class TeiMsIdentifier extends TeiElement implements TeiIdnoContainer {
         addContent(el, settlement);
         addContent(el, repository);
         addContent(el, idno);
-        addContent(el, altIdentifier);
+        for (TeiAltIdentifier aid : altIdentifiers) {
+            addContent(el, aid);
+        }
 
         return el;
     }
@@ -95,5 +101,22 @@ public class TeiMsIdentifier extends TeiElement implements TeiIdnoContainer {
     
     public void setIdno(String idno) {
         this.idno.setContent(idno);
+    }
+    
+    public List<TeiAltIdentifier> getAltIdentifiers() {
+        return Collections.unmodifiableList(altIdentifiers);
+    }
+    
+    public TeiAltIdentifier addAltIdentifier() {
+        TeiAltIdentifier aid = new TeiAltIdentifier(this);
+        altIdentifiers.add(aid);
+        return aid;
+    }
+    
+    public void removeAltIdentifier(TeiAltIdentifier aid) {
+        if (!altIdentifiers.remove(aid)) {
+            throw new Error("Cannot remove alt identifier \""+aid+"\" because it is not present in the ms identifier");
+        }
+        aid.notifyDeletion();
     }
 }

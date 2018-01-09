@@ -70,4 +70,8 @@ public class TeiMethodName extends TeiElement {
         // Nothing to do
     }
 
+    TeiDate getDate() {
+        return date;
+    }
+
 }

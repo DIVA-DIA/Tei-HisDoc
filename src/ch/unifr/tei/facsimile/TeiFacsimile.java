@@ -49,10 +49,6 @@ public class TeiFacsimile extends TeiElement implements TeiSurfaceGrpContainer, 
             surfaceGrps.add(TeiSurfaceGrpPart.load(this, e));
         }
         el.removeChildren("surfaceGrp", TeiNS);
-        if (surfaceGrps.isEmpty()) {
-            throw new Error("at least one <surfaceGrp> is required in " + getPath());
-        }
-
         consume(el);
     }
 

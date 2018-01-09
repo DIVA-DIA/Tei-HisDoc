@@ -146,4 +146,8 @@ public class TeiMsDesc extends TeiElement {
         return msParts.indexOf(p);
     }
 
+    public TeiMsIdentifier getMsIdentifier() {
+        return msIdentifier;
+    }
+
 }

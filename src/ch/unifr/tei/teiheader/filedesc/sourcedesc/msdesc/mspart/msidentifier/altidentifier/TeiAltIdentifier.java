@@ -89,7 +89,14 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
     }
     
     public void setIdno(String idno) {
-        if (this.idno==null) {
+        if (this.idno!=null && idno==null) {
+            this.idno.notifyDeletion();
+            this.idno = null;
+            return;
+        }
+        if (this.idno==null && idno==null) {
+            return;
+        } else if (this.idno==null) {
             this.idno = new TeiIdno(this);
         }
         this.idno.setContent(idno);
@@ -103,7 +110,14 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
     }
     
     public void setSettlement(String settlement) {
-        if (this.settlement==null) {
+        if (this.settlement!=null && settlement==null) {
+            this.settlement.notifyDeletion();
+            this.settlement = null;
+            return;
+        }
+        if (this.settlement==null && settlement==null) {
+            return;
+        } else if (this.settlement==null) {
             this.settlement = new TeiSettlement(this);
         }
         this.settlement.setContent(settlement);
@@ -117,7 +131,14 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
     }
 
     public void setRepository(String repository) {
-        if (this.repository==null) {
+        if (this.repository!=null && repository==null) {
+            this.repository.notifyDeletion();
+            this.repository = null;
+            return;
+        }
+        if (this.repository==null && repository==null) {
+            return;
+        } else if (this.repository==null) {
             this.repository = new TeiRepository(this);
         }
         this.repository.setContent(repository);

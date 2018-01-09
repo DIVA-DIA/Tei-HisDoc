@@ -70,5 +70,33 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
     public void generateDefaultId() {
         // Nothing to do
     }
+    
+    public String getIdno() {
+        if (idno==null) {
+            return null;
+        }
+        return idno.getContent();
+    }
+    
+    public void setIdno(String idno) {
+        if (this.idno==null) {
+            this.idno = new TeiIdno(this);
+        }
+        this.idno.setContent(idno);
+    }
+    
+    public String getSettlement() {
+        if (settlement==null) {
+            return null;
+        }
+        return settlement.getContent();
+    }
+    
+    public void setSettlement(String settlement) {
+        if (this.settlement==null) {
+            this.settlement = new TeiSettlement(this);
+        }
+        this.settlement.setContent(settlement);
+    }
 
 }

@@ -23,7 +23,7 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
     private TeiIdno idno = null;
     private TeiSettlement settlement = null;
     private TeiRepository repository = null;
-    private String type = null;
+    private String type = "unknown";
 
     public TeiAltIdentifier(TeiElement parent) {
         super(parent);
@@ -142,6 +142,14 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
             this.repository = new TeiRepository(this);
         }
         this.repository.setContent(repository);
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

@@ -8,6 +8,8 @@ package ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.al
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiIdno;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiIdnoContainer;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiMsIdentifier;
+import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiRepository;
+import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiRepositoryContainer;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiSettlement;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiSettlementContainer;
 import ch.unifr.tei.utils.TeiElement;
@@ -17,9 +19,10 @@ import org.jdom2.Element;
 /**
  * @author Mathias Seuret
  */
-public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, TeiSettlementContainer {
+public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, TeiSettlementContainer, TeiRepositoryContainer {
     private TeiIdno idno = null;
     private TeiSettlement settlement = null;
+    private TeiRepository repository = null;
     private String type = null;
 
     public TeiAltIdentifier(TeiElement parent) {
@@ -40,6 +43,12 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
             settlement = TeiSettlement.load(this, e);
         }
         el.removeChild("settlement", TeiNS);
+        
+        e = el.getChild("repository", TeiNS);
+        if (e!=null) {
+            repository = TeiRepository.load(this, e);
+        }
+        el.removeChild("repository", TeiNS);
 
         type = consumeAttributeStr(el, "type", NoNS, true);
 
@@ -61,6 +70,7 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
 
         addContent(el, idno);
         addContent(el, settlement);
+        addContent(el, repository);
         addAttribute(el, "type", type, NoNS);
 
         return el;
@@ -97,6 +107,20 @@ public class TeiAltIdentifier extends TeiElement implements TeiIdnoContainer, Te
             this.settlement = new TeiSettlement(this);
         }
         this.settlement.setContent(settlement);
+    }
+    
+    public String getRepository() {
+        if (repository==null) {
+            return null;
+        }
+        return repository.getContent();
+    }
+
+    public void setRepository(String repository) {
+        if (this.repository==null) {
+            this.repository = new TeiRepository(this);
+        }
+        this.repository.setContent(repository);
     }
 
 }

@@ -13,11 +13,11 @@ import org.jdom2.Element;
  * @author Mathias Seuret
  */
 public class TeiRepository extends TeiTextElement {
-    public TeiRepository(TeiElement parent) {
-        super(parent);
+    public TeiRepository(TeiRepositoryContainer parent) {
+        super((TeiElement)parent);
     }
 
-    private TeiRepository(TeiMsIdentifier parent, Element el) {
+    private TeiRepository(TeiRepositoryContainer parent, Element el) {
         this(parent);
 
         setContent(el.getText());
@@ -25,7 +25,7 @@ public class TeiRepository extends TeiTextElement {
         consume(el);
     }
 
-    public static TeiRepository load(TeiMsIdentifier parent, Element el) {
+    public static TeiRepository load(TeiRepositoryContainer parent, Element el) {
         return new TeiRepository(parent, el);
     }
 

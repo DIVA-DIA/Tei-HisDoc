@@ -111,5 +111,7 @@ public class TeiPersName extends TeiElement {
         date.setDate(d);
     }
 
-
+    TeiDate getDate() {
+        return date;
+    }
 }

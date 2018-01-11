@@ -9,13 +9,16 @@ import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.physdesc.TeiPhysDesc;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.physdesc.objectdesc.layoutdesc.TeiLayoutDesc;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.physdesc.objectdesc.supportdesc.TeiSupportDesc;
 import ch.unifr.tei.utils.TeiElement;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import org.jdom2.Element;
 
 /**
  * @author Mathias Seuret
  */
 public class TeiObjectDesc extends TeiElement {
-    private TeiSupportDesc supportDesc = new TeiSupportDesc(this);
+    private List<TeiSupportDesc> supportDescs = new LinkedList<>();
     private TeiLayoutDesc layoutDesc = null;
     private String form = null;
 
@@ -26,10 +29,14 @@ public class TeiObjectDesc extends TeiElement {
     private TeiObjectDesc(TeiPhysDesc parent, Element el) {
         this(parent);
 
-        Element e = consumeChild(el, "supportDesc", TeiNS, true);
-        supportDesc = TeiSupportDesc.load(this, e);
+        
+        for (Element e : el.getChildren("supportDesc", TeiNS)) {
+            supportDescs.add(TeiSupportDesc.load(this, e));
+        }
+        el.removeChildren("supportDesc", TeiNS);
+        
 
-        e = consumeChild(el, "layoutDesc", TeiNS, false);
+        Element e = consumeChild(el, "layoutDesc", TeiNS, false);
         if (e != null) {
             layoutDesc = TeiLayoutDesc.load(this, e);
 //        } else {
@@ -54,7 +61,9 @@ public class TeiObjectDesc extends TeiElement {
     public Element toXML() {
         Element el = getExportElement();
 
-        addContent(el, supportDesc);
+        for (TeiElement te : supportDescs) {
+            addContent(el, te);
+        }
         addContent(el, layoutDesc);
         addAttribute(el, "form", form, NoNS);
 
@@ -64,6 +73,10 @@ public class TeiObjectDesc extends TeiElement {
     @Override
     public void generateDefaultId() {
         // Nothing to do
+    }
+
+    public List<TeiSupportDesc> getSupportDescs() {
+        return Collections.unmodifiableList(supportDescs);
     }
 
 }

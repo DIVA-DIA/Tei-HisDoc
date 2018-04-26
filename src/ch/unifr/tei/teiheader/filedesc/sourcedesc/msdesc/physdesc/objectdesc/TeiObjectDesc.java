@@ -78,5 +78,18 @@ public class TeiObjectDesc extends TeiElement {
     public List<TeiSupportDesc> getSupportDescs() {
         return Collections.unmodifiableList(supportDescs);
     }
+    
+    public TeiSupportDesc createSupportDesc() {
+        TeiSupportDesc tsd = new TeiSupportDesc(this);
+        supportDescs.add(tsd);
+        return tsd;
+    }
+    
+    public void removeSupportDesc(TeiSupportDesc tsd) {
+        if (!supportDescs.contains(tsd)) {
+            throw new Error("the support desc to remove is not contained by the object desc");
+        }
+        supportDescs.remove(tsd);
+    }
 
 }

@@ -100,5 +100,9 @@ public class TeiPhysDesc extends TeiElement {
     public TeiHandDesc getHandDesc() {
         return handDesc;
     }
+    
+    public TeiObjectDesc getObjectDesc() {
+        return objectDesc;
+    }
 
 }

@@ -11,10 +11,10 @@ import org.jdom2.Element;
  * @author Mathias Seuret
  */
 public class TeiDimensions extends TeiMeasure {
-    private float width;
-    private float height;
-    private String hUnit;
-    private String vUnit;
+    private double width;
+    private double height;
+    private String widthUnit;
+    private String heightUnit;
 
     public TeiDimensions(TeiElement parent, String type) {
         super(parent, type);
@@ -25,23 +25,23 @@ public class TeiDimensions extends TeiMeasure {
         el.removeAttribute("type", NoNS);
 
         Element ew = el.getChild("width", TeiNS);
-        if ((hUnit = ew.getAttributeValue("unit", NoNS)) == null) {
+        if ((widthUnit = ew.getAttributeValue("unit", NoNS)) == null) {
             throw new Error("no unit attribute defined in " + getPath() + "/width");
         }
         //Fotini
         Element eh = el.getChild("height", TeiNS);
-        if ((vUnit = eh.getAttributeValue("unit", NoNS)) == null) {
+        if ((heightUnit = eh.getAttributeValue("unit", NoNS)) == null) {
             throw new Error("no unit attribute defined in " + getPath() + "/height");
         }
 
         try {
-            width = Float.parseFloat(ew.getTextTrim());
+            width = Double.parseDouble(ew.getTextTrim());
         } catch (Exception e) {
             throw new Error("non-numeric value (\"" + ew.getText() + "\") given to " + getPath() + "/width");
         }
         try {
             //Fotini
-            height = Float.parseFloat(eh.getTextTrim());
+            height = Double.parseDouble(eh.getTextTrim());
         } catch (Exception e) {
             throw new Error("non-numeric value given to " + getPath() + "/height");
         }
@@ -71,14 +71,14 @@ public class TeiDimensions extends TeiMeasure {
         el.setAttribute("type", getType(), NoNS);
 
         Element w = new Element("width", TeiNS);
-        w.setAttribute("unit", vUnit, NoNS);
+        w.setAttribute("unit", heightUnit, NoNS);
         //Fotini
         //w.setAttribute("n", String.valueOf(width), NoNS);
         w.setText(String.valueOf(width));
 
 
         Element h = new Element("height", TeiNS);
-        h.setAttribute("unit", hUnit, NoNS);
+        h.setAttribute("unit", widthUnit, NoNS);
         //Fotini        
         //h.setAttribute("n", String.valueOf(height), NoNS);
         h.setText(String.valueOf(height));
@@ -94,4 +94,36 @@ public class TeiDimensions extends TeiMeasure {
         // Nothing to do
     }
 
+    public String getWidthUnit() {
+        return widthUnit;
+    }
+    
+    public void setWidthUnit(String unit) {
+        widthUnit = unit;
+    }
+    
+    public String getHeightUnit() {
+        return heightUnit;
+    }
+    
+    public void setHeightUnit(String unit) {
+        heightUnit = unit;
+    }
+
+    public void setWidth(double w) {
+        width = w;
+    }
+    
+    public double getWidth() {
+        return width;
+    }
+    
+    public void setHeight(double h) {
+        height = h;
+    }
+    
+    public double getHeight() {
+        return height;
+    }
+    
 }

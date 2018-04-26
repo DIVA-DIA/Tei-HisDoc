@@ -84,5 +84,17 @@ public class TeiSupportDesc extends TeiElement {
     public void generateDefaultId() {
         // Nothing to do
     }
+    
+    public String getMaterial() {
+        return material;
+    }
+    
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+    
+    public TeiExtent getExtent() {
+        return extent;
+    }
 
 }

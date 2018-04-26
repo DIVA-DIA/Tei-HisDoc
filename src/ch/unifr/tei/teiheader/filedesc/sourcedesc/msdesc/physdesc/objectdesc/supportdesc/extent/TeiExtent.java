@@ -6,9 +6,11 @@
 package ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.physdesc.objectdesc.supportdesc.extent;
 
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.physdesc.objectdesc.supportdesc.TeiSupportDesc;
+import ch.unifr.tei.utils.TeiCountMeasure;
 import ch.unifr.tei.utils.TeiDimensions;
 import ch.unifr.tei.utils.TeiElement;
 import ch.unifr.tei.utils.TeiMeasure;
+import java.util.Collections;
 import org.jdom2.Element;
 
 import java.util.LinkedList;
@@ -36,8 +38,6 @@ public class TeiExtent extends TeiElement {
         Element e = consumeChild(el, "dimensions", TeiNS, false);
         if (e != null) {
             dimensions = TeiDimensions.load(this, e);
-//        } else {
-//            dimensions = new TeiDimensions(this, "");
         }
 
         consume(el);
@@ -67,6 +67,27 @@ public class TeiExtent extends TeiElement {
     @Override
     public void generateDefaultId() {
         // Nothing to do
+    }
+    
+    public List<TeiMeasure> getMeasures() {
+        return Collections.unmodifiableList(measures);
+    }
+    
+    public TeiCountMeasure createCountMeasure(String type) {
+        TeiCountMeasure m = new TeiCountMeasure(this, type);
+        measures.add(m);
+        return m;
+    }
+    
+    public TeiDimensions createDimensions() {
+        if (dimensions==null) {
+            dimensions = new TeiDimensions(this, "pageDimensions");
+        }
+        return dimensions;
+    }
+    
+    public TeiDimensions getDimensions() {
+        return dimensions;
     }
 
 }

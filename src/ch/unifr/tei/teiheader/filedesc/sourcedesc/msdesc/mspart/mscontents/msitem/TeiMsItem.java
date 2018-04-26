@@ -18,8 +18,8 @@ import java.util.List;
  * @author Mathias Seuret
  */
 public class TeiMsItem extends TeiElement implements TeiDivDivContainer {
-    private TeiLocus locus = new TeiLocus(this);
-    private TeiTitle title = new TeiTitle(this);
+    private TeiLocus locus = null;
+    private TeiTitle title = null;
     private List<TeiRubric> rubrics = new LinkedList<>();
     private TeiIncipit incipit = null;
     private TeiExplicit explicit = null;
@@ -40,8 +40,6 @@ public class TeiMsItem extends TeiElement implements TeiDivDivContainer {
         e = consumeChild(el, "title", TeiNS, false);
         if (e != null) {
             title = TeiTitle.load(this, e);
-        } else {
-            title = new TeiTitle(this);
         }
 
         for (Element r : el.getChildren("rubric", TeiNS)) {
@@ -86,7 +84,7 @@ public class TeiMsItem extends TeiElement implements TeiDivDivContainer {
     public Element toXML() {
         Element el = getExportElement();
 
-        //addContent(el, locus);
+        addContent(el, locus);
         addContent(el, title);
         for (TeiElement e : rubrics) {
             addContent(el, e);
@@ -104,5 +102,20 @@ public class TeiMsItem extends TeiElement implements TeiDivDivContainer {
     public void generateDefaultId() {
         // Nothing to do
     }
+    
+    public TeiLocus getLocus() {
+        return locus;
+    }
+    
+    public void setLocus(TeiLocus locus) {
+        this.locus = locus;
+    }
 
+    public TeiTitle getTitle() {
+        return title;
+    }
+    
+    public void setTitle(TeiTitle title) {
+        this.title = title;
+    }
 }

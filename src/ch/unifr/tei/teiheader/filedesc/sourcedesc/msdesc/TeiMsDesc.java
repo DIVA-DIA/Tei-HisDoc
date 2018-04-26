@@ -13,6 +13,7 @@ import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.mscontents.TeiMs
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.mspart.msidentifier.TeiMsIdentifier;
 import ch.unifr.tei.teiheader.filedesc.sourcedesc.msdesc.physdesc.TeiPhysDesc;
 import ch.unifr.tei.utils.TeiElement;
+import java.util.Collections;
 import org.jdom2.Element;
 
 import java.util.LinkedList;
@@ -165,4 +166,29 @@ public class TeiMsDesc extends TeiElement {
         return history;
     }
 
+    public TeiMsContents createMsContents() {
+        if (msContents==null) {
+            msContents = new TeiMsContents(this);
+        }
+        return msContents;
+    }
+    
+    public TeiMsPart createMsPart() {
+        TeiMsPart msp = new TeiMsPart(this);
+        msParts.add(msp);
+        return msp;
+    }
+    
+    public List<TeiMsPart> getMsParts() {
+        return Collections.unmodifiableList(msParts);
+    }
+    
+    public void removePart(TeiMsPart p) {
+        if (msParts.contains(p)) {
+            p.notifyDeletion();
+            msParts.remove(p);
+        } else {
+            throw new Error("cannot remove ms part as ms desc does not contain it");
+        }
+    }
 }

@@ -31,9 +31,12 @@ public class TeiMsPart extends TeiElement implements TeiFacsReferrer<TeiSurfaceG
     private TeiMsPart(TeiMsDesc parent, Element el) {
         this(parent);
 
-        msIdentifier = TeiMsIdentifier.load(this, consumeChild(el, "msIdentifier", TeiNS, true));
+        Element e = consumeChild(el, "msIdentifier", TeiNS, false);
+        if (e!=null) {
+            msIdentifier = TeiMsIdentifier.load(this, e);
+        }
 
-        Element e = consumeChild(el, "msContents", TeiNS, false);
+        e = consumeChild(el, "msContents", TeiNS, false);
         if (e != null) {
             msContents = TeiMsContents.load(this, e);
         } else {
@@ -71,7 +74,9 @@ public class TeiMsPart extends TeiElement implements TeiFacsReferrer<TeiSurfaceG
     public Element toXML() {
         Element el = getExportElement();
 
-        el.addContent(msIdentifier.toXML());
+        if (msIdentifier!=null) {
+            el.addContent(msIdentifier.toXML());
+        }
 
         if (msContents != null) {
             el.addContent(msContents.toXML());
@@ -103,4 +108,25 @@ public class TeiMsPart extends TeiElement implements TeiFacsReferrer<TeiSurfaceG
         return facs;
     }
 
+    public TeiMsContents createMsContents() {
+        if (msContents==null) {
+            msContents = new TeiMsContents(this);
+        }
+        return msContents;
+    }
+    
+    public TeiMsContents getMsContents() {
+        return msContents;
+    }
+    
+    public TeiPhysDesc getPhysDesc() {
+        return physDesc;
+    }
+    
+    public TeiPhysDesc createPhysDesc() {
+        if (physDesc==null) {
+            physDesc = new TeiPhysDesc(this);
+        }
+        return physDesc;
+    }
 }

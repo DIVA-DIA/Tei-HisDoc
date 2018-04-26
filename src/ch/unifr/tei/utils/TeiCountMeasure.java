@@ -56,5 +56,13 @@ public class TeiCountMeasure extends TeiMeasure {
     public void generateDefaultId() {
         // Nothing to do
     }
+    
+    public int getCount() {
+        return count;
+    }
+    
+    public void setCount(int count) {
+        this.count = count;
+    }
 
 }

@@ -373,6 +373,7 @@ public class TeiHisDoc extends TeiElement {
         // Nothing to do
     }
 
+    @Override
     public TeiRespStmt getCurrentResponsible() {
         return currentRespStmt;
     }

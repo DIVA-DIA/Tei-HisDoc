@@ -57,5 +57,16 @@ public class TeiHistory extends TeiElement {
     public void generateDefaultId() {
         // Nothing to do
     }
+    
+    public TeiOrigin getOrigin() {
+        return origin;
+    }
+    
+    public TeiOrigin createOrigin() {
+        if (origin==null) {
+            origin = new TeiOrigin(this);
+        }
+        return origin;
+    }
 
 }

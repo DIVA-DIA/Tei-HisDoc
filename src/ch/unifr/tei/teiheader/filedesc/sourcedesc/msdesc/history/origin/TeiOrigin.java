@@ -68,5 +68,16 @@ public class TeiOrigin extends TeiElement {
     public void generateDefaultId() {
         // Nothing to do
     }
+    
+    public TeiOrigDate getDate() {
+        return originDate;
+    }
+    
+    public TeiOrigDate createDate() {
+        if (originDate==null) {
+            originDate = new TeiOrigDate(this);
+        }
+        return originDate;
+    }
 
 }

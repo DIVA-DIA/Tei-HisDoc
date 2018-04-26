@@ -149,5 +149,20 @@ public class TeiMsDesc extends TeiElement {
     public TeiMsIdentifier getMsIdentifier() {
         return msIdentifier;
     }
+    
+    public TeiMsContents getMsContents() {
+        return msContents;
+    }
+    
+    public TeiHistory getHistory() {
+        return history;
+    }
+    
+    public TeiHistory createHistory() {
+        if (history==null) {
+            history = new TeiHistory(this);
+        }
+        return history;
+    }
 
 }
